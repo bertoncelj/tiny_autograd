@@ -17,6 +17,7 @@ class Value:
 
 
     def __add__(self,other):
+        other = other if isinstance(other, Value) else Value(other)
         out = Value(self.data + other.data, (self,other), "+")
         # out._backward = _backward()
 
@@ -28,6 +29,8 @@ class Value:
         return out
 
     def __mul__(self,other):
+
+        other = other if isinstance(other, Value) else Value(other)
         out = Value(self.data * other.data, (self,other),"*")
         
         def _backward():
@@ -35,6 +38,9 @@ class Value:
             other.grad += self.data * out.grad 
         out._backward = _backward
         return out
+
+    def __rmul__(self,other):
+        return self * other
 
     def tanh(self):
         x = self.data
@@ -45,6 +51,14 @@ class Value:
             self.grad += (1-t**2) * out.grad
         out._backward = _backward
         return out
+
+    def exp(self):
+        x = self.data
+        out = Value(math.exp(x),(self, ), "exp")
+
+        def _backward():
+            self.grad += out.data * out.grad  
+        out._backward = _backward
 
     def backward(self):
 
@@ -84,6 +98,15 @@ def neuron_model():
     o.backward()
     print(o)
 
+def example1():
+    a = Value(3)
+    a.exp()
+    b =  2 * a
+    c =  a + 2
+    print(b)
+    print(c)
+     
+    
 
-# lol()
+example1()
 neuron_model()
