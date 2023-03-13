@@ -3,26 +3,6 @@ import numpy as np
 # import mathplotlib.pylot as plt
 
 
-def f(x):
-    return 3*x**2 -4*x + 5
-
-h = 0.00001
-x = 2/3
-
-#inputs 
-a = 2.0
-b = -3.0
-c = 10.0
-
-d1 = a*b + c
-a += h
-d2 = a*b + c
-
-print("d1", d1)
-print("d2", d2)
-print("slope", (d2-d1)/h)
-
-
 class Value:
     def __init__(self,data, _children=(), _op='',label=""):
         self.data = data
@@ -82,30 +62,6 @@ class Value:
         for node in reversed(topo):
             node._backward()
 
-def lol():
-    h = 0.0001
-
-    a = Value(2.0,label="a")
-    b = Value(-3.0,label="b")
-    c = Value(10.0,label="c")
-    e = a*b; e.label="e"
-    d = e + c; d.label = "d"
-    f = Value(-2.0, label = "f")
-    L = d * f; L.label = "L"
-    L1 = L.data
-    print(L)
-
-    a = Value(2.0,label="a")
-    b = Value(-3.0,label="b")
-    c = Value(10.0,label="c")
-    e = a*b; e.label="e"
-    d = e + c; d.label = "d"
-    f = Value(-2.0, label = "f")
-    L = d * f; L.label = "L"
-    print(L)
-    L2 = L.data
-    print((L2 - L1)/h)
-    
 def neuron_model():
     #inputs x1,x2 
     x1 = Value(2.0, label="x1")
