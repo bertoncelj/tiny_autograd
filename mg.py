@@ -28,6 +28,12 @@ class Value:
         out._backward = _backward
         return out
 
+    def __neg__(self):
+        return self * -1
+
+    def __sub__(self,other):
+        return self * -1
+
     def __mul__(self,other):
 
         other = other if isinstance(other, Value) else Value(other)
@@ -119,8 +125,30 @@ def example1():
      
 def example2():
     a = Value(3)
+    print(a)
 
 
-example1()
-example2()
-neuron_model()
+# example1()
+# example2()
+# neuron_model()
+
+import random
+
+class Neuron:
+
+    def __init__(self, nin):
+        self.w = [Value(random.uniform(-1,1)) for _ in range(nin)]
+        self.b = Value(random.uniform(-1,1))
+
+    def __call__(self, x):
+        # w * x + b
+        act = sum(wi*xi for wi, xi in zip(self.w, x)) + self.b
+        out = act.tanh()
+        return out 
+
+x = [2.0, 3.0]
+n = Neuron(2)
+print(n(x))
+print(x)
+    
+
